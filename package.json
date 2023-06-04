@@ -1,0 +1,22 @@
+{
+  "name": "nodejs-practice-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SAIDUL92/nodejs-practice-project.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SAIDUL92/nodejs-practice-project/issues"
+  },
+  "homepage": "https://github.com/SAIDUL92/nodejs-practice-project#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
