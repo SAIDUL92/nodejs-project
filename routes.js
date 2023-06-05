@@ -25,18 +25,23 @@ const routes = (req, res) => {
 
         req.on('end', (test) => {
             const parsedData = Buffer.concat(data).toString();
-            const message = parsedData.split('=')[1];
+            const message = parsedData.split('=')[0];
             console.log(message);
 
-            fs.writeFileSync('message.txt', message);
-            res.statusCode = 302;
-            res.setHeader("Location", '/');
-            res.setHeader('Content-Type', 'text/html');
-            return res.end()
+            fs.writeFileSync('message.txt', message, err => {
+
+                res.statusCode = 302;
+                res.setHeader("Location", '/');
+                return res.end()
+            });
+
         })
     }
 
 
+
+
+    res.setHeader('Content-Type', 'text/html');
     res.write('<html>')
     res.write('<head><title> my title </title></head>')
     res.write('<body>')
