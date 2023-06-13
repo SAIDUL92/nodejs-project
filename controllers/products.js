@@ -1,8 +1,7 @@
 // const path = require("path");
 // const rootDir = require("../utils/path");
-// const Product = require("../models/product");
-const Product = require("../models/product_from_local_json_file");
-// const Product = require("../models/_productConstructor");
+const Product = require("../models/product");
+
 
 // const products = [];
 
