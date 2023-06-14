@@ -37,7 +37,9 @@ exports.getEditProduct = (req, res, next) => {
   }
 
   const productId = req.params.productId;
+  console.log(productId)
   Product.findByid(productId, (product => {
+    console.log(product);
     res.render('admin/edit-product', {
       pageTitle: 'Edit Product',
       path: '/admin/edit-product',
