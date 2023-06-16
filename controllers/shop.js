@@ -1,5 +1,5 @@
-const Product = require('../models/product');
-const Cart = require('../models/cart');
+const Product = require("../models/product");
+const Cart = require("../models/cart");
 
 exports.getProducts = (req, res, next) => {
   Product.fetchAll((products) => {
@@ -11,7 +11,6 @@ exports.getProducts = (req, res, next) => {
   });
 };
 
-
 exports.getProduct = (req, res, next) => {
   const productId = req.params.productId;
 
@@ -19,11 +18,9 @@ exports.getProduct = (req, res, next) => {
     res.render("shop/product-detail", {
       pageTitle: product.title,
       path: "/products",
-      product: product
+      product: product,
     });
   });
-
-
 };
 
 exports.getIndex = (req, res, next) => {
@@ -37,26 +34,42 @@ exports.getIndex = (req, res, next) => {
 };
 
 exports.getCart = (req, res, next) => {
-  res.render("shop/cart", {
-    path: "/cart",
-    pageTitle: "Your Cart",
+  Cart.getCart((cart) => {
+    Product.fetchAll((products) => {
+      const cartProducts = [];
+      for (let product of products) {
+        const cartProductdata = cart.products.find(
+          (prod) => prod.id === product.id
+        );
+        if (cartProductdata) {
+          cartProducts.push({ productData: product, qty: cartProductdata.qty });
+        }
+      }
+
+      res.render("shop/cart", {
+        path: "/cart",
+        pageTitle: "Your Cart",
+        products: cartProducts,
+      });
+    });
   });
 };
 
-
 exports.postCart = (req, res, next) => {
-
   const productId = req.body.productId;
-  console.log("productId",productId)
-
   Product.findByid(productId, (product) => {
-
     Cart.addProduct(productId, product.price);
+  });
+  res.redirect("/cart");
+};
 
-  })
-  res.redirect('/cart');
-}
-
+exports.postCartdeleteProduct = (req, res, next) => {
+  const productId = req.body.productId;
+  Product.findByid(productId, (product) => {
+    Cart.deleteProduct(productId, product.price);
+    res.redirect("/cart");
+  });
+};
 
 exports.getOrders = (req, res, next) => {
   res.render("shop/orders", {

@@ -1,5 +1,5 @@
 {
-  "name": "nodejs-practice-project",
+  "name": "nodejs-project",
   "version": "1.0.0",
   "description": "",
   "main": "app.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SAIDUL92/nodejs-practice-project.git"
+    "url": "git+https://github.com/SAIDUL92/nodejs-project.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/SAIDUL92/nodejs-practice-project/issues"
+    "url": "https://github.com/SAIDUL92/nodejs-project/issues"
   },
-  "homepage": "https://github.com/SAIDUL92/nodejs-practice-project#readme",
+  "homepage": "https://github.com/SAIDUL92/nodejs-project#readme",
   "devDependencies": {
     "nodemon": "^2.0.22"
   },

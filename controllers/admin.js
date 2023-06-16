@@ -1,11 +1,11 @@
-const Product = require('../models/product');
+const Product = require("../models/product");
 
 exports.getAddProduct = (req, res, next) => {
-  res.render('admin/edit-product', {
-    pageTitle: 'Add Product',
-    path: '/admin/edit-product',
+  res.render("admin/edit-product", {
+    pageTitle: "Add Product",
+    path: "/admin/edit-product",
     editing: false,
-    product: false
+    product: false,
   });
 };
 
@@ -16,55 +16,55 @@ exports.postAddProduct = (req, res, next) => {
   const description = req.body.description;
   const product = new Product(null, title, imageUrl, price, description);
   product.save();
-  res.redirect('/');
+  res.redirect("/");
 };
 
 exports.getProducts = (req, res, next) => {
-  Product.fetchAll(products => {
-    res.render('admin/products', {
+  Product.fetchAll((products) => {
+    res.render("admin/products", {
       prods: products,
-      pageTitle: 'Admin Products',
-      path: '/admin/products'
+      pageTitle: "Admin Products",
+      path: "/admin/products",
     });
   });
 };
 
-
 exports.getEditProduct = (req, res, next) => {
   const editingMode = req.query.edit;
   if (!editingMode) {
-    return res.redirect('/')
+    return res.redirect("/");
   }
 
   const productId = req.params.productId;
-  console.log(productId)
-  Product.findByid(productId, (product => {
-    console.log(product);
-    res.render('admin/edit-product', {
-      pageTitle: 'Edit Product',
-      path: '/admin/edit-product',
+  Product.findByid(productId, (product) => {
+    res.render("admin/edit-product", {
+      pageTitle: "Edit Product",
+      path: "/admin/edit-product",
       editing: true,
-      product: product
+      product: product,
     });
-  }))
+  });
 };
 
-
 exports.postEditProduct = (req, res, next) => {
-  const productId = req.body.productId
+  const productId = req.body.productId;
   const updatedTitle = req.body.title;
   const updatedImageUrl = req.body.imageUrl;
   const updatedPrice = req.body.price;
   const updatedDescription = req.body.description;
-  const updatedProduct = new Product(productId, updatedTitle, updatedImageUrl, updatedPrice, updatedDescription);
+  const updatedProduct = new Product(
+    productId,
+    updatedTitle,
+    updatedImageUrl,
+    updatedPrice,
+    updatedDescription
+  );
   updatedProduct.save();
-  res.redirect('/products');
+  res.redirect("/products");
 };
 
-
-
-
-exports.deletePostProduct = (req, res, next) => {
-
-
-}
+exports.postDeleteProduct = (req, res, next) => {
+  const productId = req.body.productId;
+  Product.deleteById(productId);
+  res.redirect("/admin/products");
+};
