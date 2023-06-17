@@ -2,6 +2,8 @@ const path = require("path");
 
 const express = require("express");
 const app = express();
+
+const mongoConnect = require('./utils/database').mongoConnect
 // set the view engine to ejs
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -20,4 +22,10 @@ app.use(shopRoutes);
 
 app.use(errorControler.error404);
 
-app.listen(3000);
+mongoConnect(() => {
+
+    app.listen(3000);
+
+})
+
+
