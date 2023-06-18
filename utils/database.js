@@ -1,31 +1,64 @@
-const mongodb = require('mongodb');
-const mongoClient = mongodb.MongoClient;
+// const { MongoClient } = require('mongodb');
 
-let _db;
+// let _db;
 
-const mongoConnect = (cb) => {
+// const mongoDbConnect = (callback) => {
 
-    mongoClient.connect('mongodb+srv://root:root@cluster0.3ku0kiu.mongodb.net/?retryWrites=true&w=majority').then(client => {
-        cb(client)
-        console.log('connected');
-        _db = client.db()
-    }).catch(
-        err => {
-            console.log(err);
-        }
-    )
+//     MongoClient.connect('mongodb+srv://root:root@cluster0.3ku0kiu.mongodb.net/shop?retryWrites=true&w=majority').then(
+//         (client) => {
+//             console.log("connected client ssssssssssss", client);
+//             _db = client.db()
+//             callback()
+//         }
+//     ).catch(err => {
+//         console.log(err);
+//         throw err
+//     })
+// }
+// console.log("_db up", _db);
+
+// const getDb = (_db) => {
+//     console.log("_db", _db);
+
+//     if (_db) {
+//         return _db
+//     }
+
+//     throw "No data base found!"
+// }
+
+
+// exports.mongoDbConnect = mongoDbConnect;
+// exports.getDb = getDb;
+
+
+
+
+
+const { MongoClient } = require('mongodb');
+
+// Connection URL
+const url = 'mongodb+srv://root:root@cluster0.3ku0kiu.mongodb.net/shop?retryWrites=true&w=majority';
+const client = new MongoClient(url);
+
+// Database Name
+const dbName = 'myProject';
+
+async function mongoDbConnect() {
+  // Use connect method to connect to the server
+  await client.connect();
+  console.log('Connected successfully to server');
+  const db = client.db(dbName);
+  const collection = db.collection('documents');
+
+  // the following code examples can be pasted here...
+
+  return 'done.';
 }
 
+// mongoDbConnect()
+//   .then(console.log)
+//   .catch(console.error)
+//   .finally(() => client.close());
 
-const getDB = () => {
-
-    if (_db) {
-        return _db
-    }
-
-    throw 'no data base found'
-}
-
-
-exports.mongoConnect = mongoConnect
-exports.getDB = getDB
+  exports.mongoDbConnect = mongoDbConnect

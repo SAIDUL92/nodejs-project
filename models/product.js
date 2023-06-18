@@ -1,7 +1,6 @@
-const getDB = require('../utils/database').getDB;
+const getDb = require('../utils/database').getDb
 
-
-module.exports = class Product2 {
+module.exports = class Product {
   constructor(id, title, imageUrl, price, description) {
     this.id = id;
     this.title = title;
@@ -11,15 +10,36 @@ module.exports = class Product2 {
   }
 
   save() {
-    const db = getDB()
+    console.log(this);
+    const db = getDb();
     return db.collection('products').insertOne(this).then(result => {
       console.log(result);
-    }).catch((err => {
+    }).catch(
+      (err) => {
+        console.log(err);
+      }
+    )
 
-      console.log(err);
-    }))
   }
-}
+
+  // static fetchAll(cb) {
+  //   // getProductsFromFile(cb);
+  // }
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // const path = require("path");
 // const fs = require("fs");
@@ -62,11 +82,11 @@ module.exports = class Product2 {
 
 //         updatedProducts[existingProductIndex] = this;
 
-//         fs.writeFile(filesPath, JSON.stringify(updatedProducts), (err) => { });
+//         fs.writeFile(filesPath, JSON.stringify(updatedProducts), (err) => {});
 //       } else {
 //         this.id = Math.random().toString();
 //         products.push(this);
-//         fs.writeFile(filesPath, JSON.stringify(products), (err) => { });
+//         fs.writeFile(filesPath, JSON.stringify(products), (err) => {});
 //       }
 //     });
 //   }
@@ -92,7 +112,7 @@ module.exports = class Product2 {
 //       const updatedProducts = products.filter((p) => p.id !== id);
 //       fs.writeFile(filesPath, JSON.stringify(updatedProducts), (err) => {
 //         if (!err) {
-//           Cart.deleteProduct(id, product.map((item) => {
+//           Cart.deleteProduct(id, product.map((item)=>{
 //             return item.price
 //           }));
 //         }

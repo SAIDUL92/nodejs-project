@@ -1,9 +1,13 @@
 const path = require("path");
-
 const express = require("express");
+const dotenv = require('dotenv')
 const app = express();
+const { MongoClient } = require('mongodb');
 
-const mongoConnect = require('./utils/database').mongoConnect
+dotenv.config()
+console.log(process.env.mongodb);
+// const MongoDbConnect = require('./utils/database').mongoDbConnect;
+
 // set the view engine to ejs
 app.set("view engine", "ejs");
 app.set("views", "views");
@@ -22,10 +26,7 @@ app.use(shopRoutes);
 
 app.use(errorControler.error404);
 
-mongoConnect(() => {
 
-    app.listen(3000);
-
-})
+app.listen(3000);
 
 
