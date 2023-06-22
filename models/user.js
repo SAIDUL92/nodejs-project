@@ -16,18 +16,42 @@ class User {
     return db.collection("users").insertOne(this).then().catch();
   }
 
-
   adtoCart(products) {
-    // const cartProduct = this.cart.items.findindex(product => product._id === products._id);
+    const cartProductIndex = this.cart.items.findIndex(
+      (product) => product.productId.toString() === products._id.toString()
+    );
 
-    const updatedCart = { items: [{ productId: new ObjectId(products._id), quantity: 1 }] };
+    let newQuantity = 1;
+    const updatedCartItems = [...this.cart.items];
+
+    if (cartProductIndex >= 0) {
+      newQuantity = this.cart.items[cartProductIndex].quantity + 1;
+      updatedCartItems[cartProductIndex].quantity = newQuantity;
+    } else {
+      updatedCartItems.push({
+        productId: new ObjectId(products._id),
+        quantity: newQuantity,
+      });
+    }
+    const updatedCart = {
+      items: updatedCartItems,
+    };
 
     const db = getDb();
 
-    return db.collection('users').updateOne({ _id: new ObjectId(this._id) }, { $set: { cart: updatedCart } }).then(result => { console.log(result); }).catch(err => { console.log(err); })
-
+    return db
+      .collection("users")
+      .updateOne(
+        { _id: new ObjectId(this._id) },
+        { $set: { cart: updatedCart } }
+      )
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
-
 
   static findById(id) {
     const db = getDb();
