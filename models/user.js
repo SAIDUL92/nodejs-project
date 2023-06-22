@@ -4,10 +4,11 @@ const getDb = require("../util/database").getDb;
 const ObjectId = mongodb.ObjectId;
 
 class User {
-  constructor(username, email, cart) {
+  constructor(username, email, cart, id) {
     this.username = username;
     this.email = email;
     this.cart = cart;
+    this._id = id;
   }
 
   save() {
@@ -17,9 +18,9 @@ class User {
 
 
   adtoCart(products) {
-    const cartProduct = this.cart.items.findindex(product => product._id === products._id);
+    // const cartProduct = this.cart.items.findindex(product => product._id === products._id);
 
-    const updatedCart = { items: [{ ...products, quantity: 1 }] };
+    const updatedCart = { items: [{ productId: new ObjectId(products._id), quantity: 1 }] };
 
     const db = getDb();
 
