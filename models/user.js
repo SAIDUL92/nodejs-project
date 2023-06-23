@@ -54,9 +54,7 @@ class User {
   }
 
   getCart() {
-    console.log("this cart", this.cart);
     const db = getDb();
-    console.log("this.cart.items", this.cart.items);
     const productIds = this.cart.items.map((i) => {
       return i.productId;
     });
@@ -101,9 +99,20 @@ class User {
 
   addOrder() {
     const db = getDb();
-    return db
-      .collection("oders")
-      .insertOne(this.cart)
+
+    return this.getCart()
+      .then((products) => {
+        const order = {
+          items: products,
+          user: {
+            _id: new ObjectId(this._id),
+            name: this.name,
+            email: this.email,
+          },
+        };
+
+        return db.collection("oders").insertOne(order);
+      })
       .then((result) => {
         this.cart = { items: [] };
 
@@ -121,6 +130,11 @@ class User {
           });
       })
       .catch();
+  }
+
+  getOrders() {
+    const db = getDb();
+    // return db.collection("oders")
   }
 
   static findById(id) {
