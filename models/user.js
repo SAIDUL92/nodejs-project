@@ -54,8 +54,7 @@ class User {
   }
 
   getCart() {
-
-    console.log('this cart',this.cart);
+    console.log("this cart", this.cart);
     const db = getDb();
     console.log("this.cart.items", this.cart.items);
     const productIds = this.cart.items.map((i) => {
@@ -98,6 +97,30 @@ class User {
       .catch((err) => {
         console.log(err);
       });
+  }
+
+  addOrder() {
+    const db = getDb();
+    return db
+      .collection("oders")
+      .insertOne(this.cart)
+      .then((result) => {
+        this.cart = { items: [] };
+
+        return db
+          .collection("users")
+          .updateOne(
+            { _id: new ObjectId(this._id) },
+            { $set: { cart: { items: [] } } }
+          )
+          .then((result) => {
+            console.log(result);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch();
   }
 
   static findById(id) {
