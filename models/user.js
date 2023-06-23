@@ -54,7 +54,10 @@ class User {
   }
 
   getCart() {
+
+    console.log('this cart',this.cart);
     const db = getDb();
+    console.log("this.cart.items", this.cart.items);
     const productIds = this.cart.items.map((i) => {
       return i.productId;
     });
@@ -72,6 +75,28 @@ class User {
             }).quantity,
           };
         });
+      });
+  }
+
+  deleteItemFromCart(productId) {
+    console.log("this.cart.items", this.cart.items);
+    const updatedCartItems = this.cart.items.filter((item) => {
+      return item.productId.toString() !== productId.toString();
+    });
+
+    const db = getDb();
+
+    return db
+      .collection("users")
+      .updateOne(
+        { _id: new ObjectId(this._id) },
+        { $set: { cart: { items: updatedCartItems } } }
+      )
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   }
 
