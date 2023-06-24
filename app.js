@@ -6,7 +6,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 
 const errorController = require("./controllers/error");
-const mongoConnect = require("./util/database").mongoConnect;
+// const mongoConnect = require("./util/database").mongoConnect;
+const mongoose = require("mongoose");
 
 const app = express();
 
@@ -20,10 +21,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use((req, res, next) => {
-  User.findById("64959bb9918c0064a9039022")
+  User.findById("6495d9398baf80a1e0274ec8")
     .then((user) => {
       console.log("user", user);
-      req.user = new User(user.name, user.email, user.cart, user._id);
+      req.user = user;
       next();
     })
     .catch((err) => console.log(err));
@@ -34,6 +35,33 @@ app.use(shopRoutes);
 
 app.use(errorController.get404);
 
-mongoConnect(() => {
-  app.listen(3000);
-});
+// mongoConnect(() => {
+//   app.listen(3000);
+// });
+
+mongoose
+  .connect(
+    "mongodb+srv://root:root@cluster0.3ku0kiu.mongodb.net/shop?retryWrites=true&w=majority"
+  )
+  .then((result) => {
+    console.log("Connected to DataBase");
+
+    User.findOne().then((user) => {
+      if (!user) {
+        const user = new User({
+          name: "MOHAMMAD SAIDUL ISLAM",
+          email: "saidul@gmail.com",
+          cart: {
+            items: [],
+          },
+        });
+
+        user.save();
+      }
+    });
+
+    app.listen(3000);
+  })
+  .catch((err) => {
+    console.log(err);
+  });
