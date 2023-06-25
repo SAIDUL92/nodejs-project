@@ -11,6 +11,8 @@ const mongoose = require("mongoose");
 
 const app = express();
 
+const port = process.env.port || 3000;
+
 app.set("view engine", "ejs");
 app.set("views", "views");
 
@@ -60,7 +62,7 @@ mongoose
       }
     });
 
-    app.listen(3000);
+    app.listen(port);
   })
   .catch((err) => {
     console.log(err);

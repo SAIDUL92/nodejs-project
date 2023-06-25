@@ -4,7 +4,7 @@
   "description": "nodejs-project",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "node app.js",
     "start-server": "node app.js"
   },
   "author": "Saidul Islam",
@@ -20,7 +20,9 @@
     "mongodb": "^3.1.6",
     "mongoose": "^7.3.1",
     "mysql2": "^1.6.1",
+    "netlify-lambda": "^2.0.16",
     "pug": "^2.0.3",
-    "sequelize": "^5.0.0-beta.11"
+    "sequelize": "^5.0.0-beta.11",
+    "serverless-http": "^3.2.0"
   }
 }
