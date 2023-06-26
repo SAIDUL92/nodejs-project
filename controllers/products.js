@@ -1,9 +1,4 @@
-// const path = require("path");
-// const rootDir = require("../utils/path");
 const Product = require("../models/product");
-
-
-// const products = [];
 
 // Add products
 exports.disPlayProductsOnShopPage = (req, res, next) => {
@@ -15,13 +10,9 @@ exports.disPlayProductsOnShopPage = (req, res, next) => {
       hasProducts: products.length > 0,
       activeShop: true,
       productCSS: true,
+      isAuthenticated: false,
     });
   });
-
-
-
-  // Old approach
-  // res.sendFile(path.join(rootDir, "views", "shop.html"));
 };
 
 // Get products
@@ -34,18 +25,14 @@ exports.getProduct = (req, res, next) => {
       hasProducts: products.length > 0,
       activeShop: true,
       productCSS: true,
+      isAuthenticated: false,
     });
   });
-
-
-  // Old approach
-  // res.sendFile(path.join(rootDire, "views", "add-product.html"));
 };
 
 // Post products
 exports.postProduct = (req, res, next) => {
   const product = new Product(req.body.title);
   product.save();
-  // products.push({ title: req.body.title });
   res.redirect("/");
 };
