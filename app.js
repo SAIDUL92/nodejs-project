@@ -52,21 +52,20 @@ app.use(errorController.get404);
 mongoose
   .connect(MONGODB_CONNECTION_STRING)
   .then((result) => {
-    console.log("Connected to DataBase");
 
-    User.findOne().then((user) => {
-      if (!user) {
-        const user = new User({
-          name: "MOHAMMAD SAIDUL ISLAM",
-          email: "saidul@gmail.com",
-          cart: {
-            items: [],
-          },
-        });
+    // User.findOne().then((user) => {
+    //   if (!user) {
+    //     const user = new User({
+    //       name: "MOHAMMAD SAIDUL ISLAM",
+    //       email: "saidul@gmail.com",
+    //       cart: {
+    //         items: [],
+    //       },
+    //     });
 
-        user.save();
-      }
-    });
+    //     user.save();
+    //   }
+    // });
 
     app.listen(3000);
   })
