@@ -5,6 +5,7 @@ const bodyParser = require("body-parser");
 const errorController = require("./controllers/error");
 const mongoose = require("mongoose");
 const session = require("express-session");
+const csrf = require("csurf");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const MONGODB_CONNECTION_STRING =
   "mongodb+srv://root:root@cluster0.3ku0kiu.mongodb.net/shop?retryWrites=true&w=majority";
@@ -13,6 +14,8 @@ const store = new MongoDBStore({
   uri: MONGODB_CONNECTION_STRING,
   collection: "session",
 });
+
+const csrfProtecttion = csrf();
 app.set("view engine", "ejs");
 app.set("views", "views");
 
@@ -31,6 +34,7 @@ app.use(
   })
 );
 
+app.use(csrfProtecttion);
 app.use((req, res, next) => {
   if (!req.session.user) {
     return next();
@@ -52,7 +56,6 @@ app.use(errorController.get404);
 mongoose
   .connect(MONGODB_CONNECTION_STRING)
   .then((result) => {
-
     // User.findOne().then((user) => {
     //   if (!user) {
     //     const user = new User({
