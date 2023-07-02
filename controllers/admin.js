@@ -1,11 +1,12 @@
-// const Product = require('../models/product');
 const Product = require("../models/product");
 
 exports.getAddProduct = (req, res, next) => {
+  // const isLoggedIn = req.get("Cookie").split(";")[1].trim().split("=")[1] === 'true';
   res.render("admin/edit-product", {
     pageTitle: "Add Product",
     path: "/admin/add-product",
     editing: false,
+    isAuthenticated: false,
   });
 };
 
@@ -16,9 +17,9 @@ exports.postAddProduct = (req, res, next) => {
   const description = req.body.description;
   const product = new Product({
     title: title,
+    imageUrl: imageUrl,
     price: price,
     description: description,
-    imageUrl: imageUrl,
     userId: req.user,
   });
   product
@@ -34,6 +35,7 @@ exports.postAddProduct = (req, res, next) => {
 };
 
 exports.getEditProduct = (req, res, next) => {
+  // const isLoggedIn = req.get("Cookie").split(";")[1].trim().split("=")[1] === 'true';
   const editMode = req.query.edit;
   if (!editMode) {
     return res.redirect("/");
@@ -50,6 +52,7 @@ exports.getEditProduct = (req, res, next) => {
         path: "/admin/edit-product",
         editing: editMode,
         product: product,
+        isAuthenticated: false,
       });
     })
     .catch((err) => console.log(err));
@@ -58,16 +61,16 @@ exports.getEditProduct = (req, res, next) => {
 exports.postEditProduct = (req, res, next) => {
   const prodId = req.body.productId;
   const updatedTitle = req.body.title;
-  const updatedPrice = req.body.price;
   const updatedImageUrl = req.body.imageUrl;
+  const updatedPrice = req.body.price;
   const updatedDesc = req.body.description;
 
   Product.findById(prodId)
     .then((product) => {
       product.title = updatedTitle;
+      product.imageUrl = updatedImageUrl;
       product.price = updatedPrice;
-      product.imageUrl = updatedDesc;
-      product.description = updatedImageUrl;
+      product.description = updatedDesc;
       return product.save();
     })
     .then((result) => {
@@ -78,6 +81,7 @@ exports.postEditProduct = (req, res, next) => {
 };
 
 exports.getProducts = (req, res, next) => {
+  // const isLoggedIn = req.get("Cookie").split(";")[1].trim().split("=")[1] === 'true';
   req.user;
   Product.find()
     // .populate("userId")
@@ -87,6 +91,7 @@ exports.getProducts = (req, res, next) => {
         prods: products,
         pageTitle: "Admin Products",
         path: "/admin/products",
+        isAuthenticated: false,
       });
     })
     .catch((err) => console.log(err));
